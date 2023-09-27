@@ -28,6 +28,15 @@
                         <h5 class="card-title">{{ evenement.nom }}</h5>       
                         <p class="card-text flex-grow-1 text-truncate">{{ evenement.description }}</p> 
                         <div class="justify-content-md-end">
+                            {% if app.user %}
+                                {% if isUserRegistered(app.user, evenement) %}
+                                    <a href="{{ path('app_evenement_unregister', {'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-danger">Se désinscrire</a>
+                                {% else %}
+                                    <a href="{{ path('app_evenement_register', {'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-success">S'inscrire</a>
+                                {% endif %} 
+                            {% else %}
+                                    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+                            {% endif %}                            
                         </div>
 
 

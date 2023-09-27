@@ -3,3 +3,11 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+app_register_event:
+    path: '/event/register/{evenementId}'
+    controller: 'App\Controller\EvenementController::register'
+    
+app_unregister_event:
+    path: '/event/unregister/{evenementId}'
+    controller: 'App\Controller\EvenementController::unregister'

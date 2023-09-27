@@ -19,6 +19,14 @@ use App\Controller\EvenementController;
 
 class HomeController extends AbstractController
 {
+
+    private $evenementController;
+
+    public function __construct(EvenementController $evenementController)
+    {
+        $this->evenementController = $evenementController;
+    }
+
     #[Route('/home', name: 'app_home')]
     public function index(EvenementRepository $evenementRepository, Request $request, EntityManagerInterface $manager): Response
     {
@@ -74,3 +82,23 @@ class HomeController extends AbstractController
             'form' =>  $form->createView()
         ]);
     }
+
+    #[Route('/MyRegistration', name:'app_myRegistration')]
+    public function myRegistration(Request $request, InscriptionRepository $inscriptionRepository, EvenementRepository $evenementRepository): Response 
+    {
+        $user = $this->getUser();
+
+        $inscriptions = $inscriptionRepository->findBy(['user' => $user]);
+        $evenements = [];
+
+        foreach ( $inscriptions as $inscription) {
+            $evenements = $evenementRepository->findBy(['id'=> $inscription->getEvenementId()]);   
+        }
+        
+        return $this->render('home/myRegistration.html.twig', [
+            'inscriptions' => array_reverse($inscriptions),
+            'evenements' => array_reverse($evenements),
+        ]);
+    }
+
+}
