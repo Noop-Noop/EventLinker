@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% set routeName = app.request.attributes.get('_route') %}
+{% block title %}Hello HomeController!{% endblock %}
+
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+    <div class="container">
+        <div class=" alert alert-success my-4"> 
+            {{ message}}
+        </div>                
+    </div>
+    {% endfor %}
+    {% if evenements is empty %}
+        <div class="container m-6">
+            <p>Aucun évenement pour le moment</p>
+        </div>
+    {% else %}
+        <div class="container m-6 p-6">
+            <div class="row">
+                {% for evenement in evenements %}
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2">
+                    <div class="card d-flex flex-column mb-4  h-100">
+                        
+                        <img src="{{ asset('uploads/images/' ~ evenement.image) }}" class="card-img-top object-fit-contain h-50"  alt="photo indisponible">
+                        <div class="card-body">
+                            <h1>{{ evenement.Id }}</h1>
+                        <h5 class="card-title">{{ evenement.nom }}</h5>       
+                        <p class="card-text flex-grow-1 text-truncate">{{ evenement.description }}</p> 
+                        <div class="justify-content-md-end">
+                        </div>
+
+
+                        </div>
+                    </div>            
+                </div>
+                {% endfor %}             
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
