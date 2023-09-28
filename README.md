@@ -19,20 +19,24 @@ Création d'une fonction Twig personnalisée appelée isUserRegistered() pour v�
    git clone https://github.com/votre-utilisateur/event-linker.git
 
 2. Accédez au répertoire du projet :
+
     ```bash
     cd event-linker
 
 3. Installez les dépendances avec Composer :
+
     ```bash
     composer install
 
 4. Créez la base de données et chargez les fixtures (assurez-vous que la configuration de la base de données est correcte dans .env ou .env.local) :
+
     ```bash
     php bin/console doctrine:database:create
     php bin/console doctrine:migrations:migrate
     php bin/console doctrine:fixtures:load
 
 5. Lancez le serveur de développement :
+
     ```bash
     symfony serve
     npm run watch
@@ -40,15 +44,15 @@ Création d'une fonction Twig personnalisée appelée isUserRegistered() pour v�
 6. Accédez à l'application dans votre navigateur à l'adresse http://localhost:8000.
 
 ## Fonctionnalités
-    Création, modification et suppression d'événements.
-    Inscription et désinscription à des événements.
-    Filtrage des événements par date et catégorie.
-    Gestion des utilisateurs (inscription, connexion, etc.).
-    Tests Unitaires
+Création, modification et suppression d'événements.
+Inscription et désinscription à des événements.
+Filtrage des événements par date et catégorie.
+Gestion des utilisateurs (inscription, connexion, etc.).
+Tests Unitaires
 
 ## Tests Unitaires
+L'application EventLinker est livrée avec des tests unitaires pour garantir la stabilité et la fiabilité du code. Vous pouvez exécuter les tests avec PHPUnit :
 
-    L'application EventLinker est livrée avec des tests unitaires pour garantir la stabilité et la fiabilité du code. Vous pouvez exécuter les tests avec PHPUnit :
     ```bash
     php bin/phpunit
 
