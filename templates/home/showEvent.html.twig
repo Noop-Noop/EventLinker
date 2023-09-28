@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EventLinker ShowEvent{% endblock %}
+
+{% set routeName = app.request.attributes.get('_route') %}
+{% block body %}
+{% for message in app.flashes('success') %}
+<div class="container">
+    <div class=" alert alert-success d-flex justify-content-center my-2"> 
+        {{ message}}
+    </div>                
+</div>
+{% endfor %}
+{% for message in app.flashes('danger') %}
+<div class="container">
+    <div class=" alert alert-danger d-flex justify-content-center my-2"> 
+        {{ message}}
+    </div>                
+</div>
+{% endfor %}
+<div class="m-2">
+    <a href="{{ path(previousRouteName, { 'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-secondary">Retour</a>
+    {% if app.user == evenement.idcreateur%}
+    <a href="{{ path('app_editEvent', { 'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-primary">Modifier</a>    
+    <a href="{{ path('app_deleteEvent', { 'evenementId': evenement.id, 'routeName': previousRouteName}) }}" class="btn btn-danger">Supprimer</a>
+    {% endif %}    
+</div>
+<div class="container card my-2 m-auto">
+    <p class="fs-6 text text-start">{{ evenement.dateDebut | date('d-m-Y H:i:s') }} - {{ evenement.dateFin | date('d-m-Y H:i:s') }}.</p>
+    <h5 class="card-title text-center">{{ evenement.nom }}</h5>      
+    <div class="container d-flex flex-column justify-content-center align-items-center m-3">
+        <img src="{{ asset('uploads/images/' ~ evenement.image) }}" class="object-fit-contain"  alt="photo indisponible">
+        <p class="card-text">{{ evenement.description }}</p> 
+    </div>    
+</div>
+
+
+
+{% endblock %}

@@ -27,7 +27,7 @@ class EventMakerType extends AbstractType
                 ],
                 'label' => 'Nom de l\'evenement',
                 'label_attr' => [
-                    'class' => 'form_label mt-4'
+                    'class' => 'form_label m-1'
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),                        
@@ -44,7 +44,7 @@ class EventMakerType extends AbstractType
                 ],
                 'label' => 'Description de l\'evenement',
                 'label_attr' => [
-                    'class' => 'form_label mt-4'
+                    'class' => 'form_label m-1'
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),                        
@@ -56,7 +56,7 @@ class EventMakerType extends AbstractType
                 ],
                 'label' => 'Date de debut',
                 'label_attr' => [
-                    'class' => 'form_label mt-4'
+                    'class' => 'form_label m-1'
                 ],
                 'widget' => 'single_text', 
                 'html5' => true
@@ -67,7 +67,7 @@ class EventMakerType extends AbstractType
                 ],
                 'label' => 'Date de fin',
                 'label_attr' => [
-                    'class' => 'form_label mt-4'
+                    'class' => 'form_label m-1'
                 ],
                 'widget' => 'single_text', 
                 'html5' => true
@@ -80,7 +80,7 @@ class EventMakerType extends AbstractType
                 ],
                 'label' => 'Lieu de l\'evenement',
                 'label_attr' => [
-                    'class' => 'form_label mt-4'
+                    'class' => 'form_label m-1'
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),                        
@@ -98,7 +98,7 @@ class EventMakerType extends AbstractType
                 ],
                 'label' => 'Importer une image',
                 'label_attr' => [
-                    'class' => 'form_label mt-4'
+                    'class' => 'form_label m-1'
                 ],
                 'mapped' => false,
                 'required' => false,
@@ -111,7 +111,7 @@ class EventMakerType extends AbstractType
             ->add('id_createur', HiddenType::class)
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-primary mt-4'
+                    'class' => 'btn btn-primary mb-2' 
                 ]
             ])
         ;

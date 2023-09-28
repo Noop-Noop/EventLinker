@@ -3,6 +3,20 @@
 {% block title %} EventLinker Registration{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+    <div class="container">
+        <div class=" alert alert-success d-flex justify-content-center my-2"> 
+            {{ message}}
+        </div>                
+    </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+    <div class="container">
+        <div class=" alert alert-danger d-flex justify-content-center my-2"> 
+            {{ message}}
+        </div>                
+    </div>
+    {% endfor %}
     <div class="container">
         <h1 class="mt-4">Formulaire d'inscription</h1>
         {{ form(form)}}

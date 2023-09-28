@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EventLinker ShowEvent{% endblock %}
+
+{% set routeName = app.request.attributes.get('_route') %}
+{% block body %}
+
+{% for message in app.flashes('success') %}
+<div class="container">
+    <div class=" alert alert-success d-flex justify-content-center my-2"> 
+        {{ message}}
+    </div>                
+</div>
+{% endfor %}
+{% for message in app.flashes('danger') %}
+<div class="container">
+    <div class=" alert alert-danger d-flex justify-content-center my-2"> 
+        {{ message}}
+    </div>                
+</div>
+{% endfor %}
+
+<a href="{{ path(previousRouteName, { 'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-secondary m-2">Retour</a>
+<div class="container my-2 m-auto card">
+
+        <h1 class="my-2 text-center">Modifier l'événement</h1>
+        {{ form_start(form) }}          
+        <div class="row g-3">
+            <div class="col-12">
+               {{ form_row(form.nom) }}      
+            </div>
+            <div class="col-12">
+                {{ form_row(form.description) }}                
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.date_debut) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.date_fin) }}
+            </div>
+            <div class="col-12">        
+                {{ form_row(form.lieux) }}
+            </div>
+            <div class="col-12">        
+                {{ form_row(form.image) }}
+            </div>
+            <div class="col-12 text-end">
+                {{ form_row(form.submit) }}
+            </div>
+            {{ form_row(form.id_createur) }}    
+        </div>                    
+        {{ form_end(form) }}            
+
+
+
+</div>
+
+
+{% endblock %}
+ 

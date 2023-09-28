@@ -44,6 +44,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->evenements = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
     }
+    
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
 
     public function getId(): ?int
     {
@@ -175,6 +180,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     public function removeInscription(Inscription $inscription): static
     {
         if ($this->inscriptions->removeElement($inscription)) {
@@ -186,4 +192,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 }

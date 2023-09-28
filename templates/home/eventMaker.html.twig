@@ -3,8 +3,49 @@
 {% block title %}EventLinker CreateEvent{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
     <div class="container">
-        <h2 class="mt-4">Formulaire de création d'évenement</h2>
-        {{ form(form)}}
+        <div class=" alert alert-success d-flex justify-content-center my-2"> 
+            {{ message}}
+        </div>                
+    </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+    <div class="container">
+        <div class=" alert alert-danger d-flex justify-content-center my-2"> 
+            {{ message}}
+        </div>                
+    </div>
+    {% endfor %}
+    <div class="container card m-auto my-2">
+        <h2 class="my-2 text-center">Formulaire de création d'évenement</h2>
+
+           {{ form_start(form) }}          
+        <div class="row g-3">
+            <div class="col-12">
+               {{ form_row(form.nom) }}      
+            </div>
+            <div class="col-12">
+                {{ form_row(form.description) }}                
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.date_debut) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.date_fin) }}
+            </div>
+            <div class="col-12">        
+                {{ form_row(form.lieux) }}
+            </div>
+            <div class="col-12">        
+                {{ form_row(form.image) }}
+            </div>
+            <div class="col-12 text-end">
+                {{ form_row(form.submit) }}
+            </div>
+        {{ form_end(form) }}            
+        </div>
+
+
     </div>
 {% endblock %}

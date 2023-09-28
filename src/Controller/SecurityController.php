@@ -8,12 +8,33 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+        
+    }
+
+    public function isUsernameValid($user)
+    {
+        $existingUser = $this->userRepository->findOneBy(['username' => $user->getUsername()]);
+
+        if ($existingUser->getUsername() == $user->getUsername()) {
+            // Gérez l'erreur, par exemple en renvoyant un message d'erreur à l'utilisateur
+            $this->addFlash('danger', 'Ce nom d\'utilisateur est déjà utilisé.');
+            // Redirigez l'utilisateur vers le formulaire d'inscription     
+            return $this->redirectToRoute('app_register');
+        }
+    }
+
     #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
     public function register(Request $request,UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $manager): Response
     {
@@ -22,7 +43,17 @@ class SecurityController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();            
+            $user = $form->getData();      
+
+            $existingUser = $this->userRepository->findOneBy(['username' => $user->getUsername()]);
+
+            if ($existingUser) {
+                // Gérez l'erreur, par exemple en renvoyant un message d'erreur à l'utilisateur
+                $this->addFlash('danger', 'Ce nom d\'utilisateur est déjà utilisé.');
+                // Redirigez l'utilisateur vers le formulaire d'inscription     
+                return $this->redirectToRoute('app_register');
+            }
+
             $password = $passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
             $user->setRoles(['ROLE_USER']);
@@ -44,9 +75,9 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('target_path');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

@@ -44,7 +44,7 @@ class Evenement
     public function __construct()
     {
         // Initialisez le champ $photo avec la valeur par défaut
-        $this->image = 'https://placehold.co/400';
+        $this->image = '400.svg';
         $this->inscriptions = new ArrayCollection(); 
     }
 

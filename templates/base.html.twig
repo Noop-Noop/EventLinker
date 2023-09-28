@@ -30,10 +30,10 @@
                 <a class="nav-link" href="{{ path('app_createEvent') }}">Creer un évenement</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_myRegistration') }}">Mes Inscriptions</a>
-              </li>
+                <a class="nav-link" href="{{ path('app_myEvent') }}">Mes événements</a>
+              </li>              
               <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="{{ path('app_myRegistration') }}">Mes inscriptions</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
@@ -50,7 +50,7 @@
        
             {% if app.user %}
             <div class="nav-item d-flex">
-                <a href="{{ path('app_logout') }}" class="btn btn-primary mx-2">Déconnexion</a>                
+                <a href="{{ path('app_logout') }}" class="btn btn-danger mx-2">Déconnexion</a>                
             </div>       
             {% else %}
             <div class="nav-item d-flex">

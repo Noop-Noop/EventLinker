@@ -6,7 +6,14 @@
 {% block body %}
     {% for message in app.flashes('success') %}
     <div class="container">
-        <div class=" alert alert-success my-4"> 
+        <div class=" alert alert-success d-flex justify-content-center my-2"> 
+            {{ message}}
+        </div>                
+    </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+    <div class="container">
+        <div class=" alert alert-danger d-flex justify-content-center my-2"> 
             {{ message}}
         </div>                
     </div>
@@ -17,34 +24,72 @@
         </div>
     {% else %}
         <div class="container m-6 p-6">
-            <div class="row">
-                {% for evenement in evenements %}
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2">
-                    <div class="card d-flex flex-column mb-4  h-100">
-                        
-                        <img src="{{ asset('uploads/images/' ~ evenement.image) }}" class="card-img-top object-fit-contain h-50"  alt="photo indisponible">
-                        <div class="card-body">
-                            <h1>{{ evenement.Id }}</h1>
-                        <h5 class="card-title">{{ evenement.nom }}</h5>       
-                        <p class="card-text flex-grow-1 text-truncate">{{ evenement.description }}</p> 
-                        <div class="justify-content-md-end">
-                            {% if app.user %}
-                                {% if isUserRegistered(app.user, evenement) %}
-                                    <a href="{{ path('app_evenement_unregister', {'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-danger">Se désinscrire</a>
-                                {% else %}
-                                    <a href="{{ path('app_evenement_register', {'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-success">S'inscrire</a>
-                                {% endif %} 
-                            {% else %}
-                                    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
-                            {% endif %}                            
+            <div class="container card d-flex flex-column justify-content-evenly w-50 m-auto my-3">
+                {{ form_start(dateFilterForm) }}
+                {{ form_row(dateFilterForm.startDate) }}
+                {{ form_row(dateFilterForm.endDate) }}
+                {{ form_row(dateFilterForm.filter) }}
+                {{ form_end(dateFilterForm) }}
+            </div>
+            <div class="row ">
+                {% if filteredEvents is empty %}
+                    {% for evenement in evenements %}
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2">
+                            <div class="card d-flex flex-column mb-4 text-center h-100">
+                                <figure class="figure">
+                                    <img src="{{ asset('uploads/images/' ~ evenement.image) }}" class="figure-img img-fluid rounded" alt="...">
+                                    <figcaption class="figure-caption">du {{ evenement.dateDebut | date('d-m-Y H:i:s') }}.</figcaption>
+                                    <figcaption class="figure-caption">du {{ evenement.dateFin | date('d-m-Y H:i:s') }}.</figcaption>
+                                  </figure>
+                                <div class="card-body d-flex flex-column  justify-content-center align-items-center p-2">
+                                    <h5 class="card-title h-auto">{{ evenement.nom }}</h5>    
+                                    <p class="card-text d-inline-block flex-grow-1">{{ evenement.description }}</p> 
+                                    <div class="container d-flex justify-content-evenly align-items-center ">
+                                        <a href="{{ path('app_showEvent', { 'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-info">Lire la suite</a>                                
+                                        {% if app.user %}
+                                            {% if isUserRegistered(app.user, evenement) %}
+                                                <a href="{{ path('app_evenement_unregister', {'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-danger">Se désinscrire</a>
+                                            {% else %}
+                                                <a href="{{ path('app_evenement_register', {'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-success">S'inscrire</a>
+                                            {% endif %} 
+                                        {% else %}
+                                                <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+                                        {% endif %}                            
+                                    </div>
+                                </div>
+                            </div>            
                         </div>
-
-
+                    {% endfor %}   
+                {% else %}
+                {% for evenement in filteredEvents %}
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 my-2">
+                    <div class="card d-flex flex-column mb-4 text-center h-100">
+                        <figure class="figure">
+                            <img src="{{ asset('uploads/images/' ~ evenement.image) }}" class="figure-img img-fluid rounded" alt="...">
+                            <figcaption class="figure-caption">du {{ evenement.dateDebut | date('d-m-Y H:i:s') }}.</figcaption>
+                            <figcaption class="figure-caption">du {{ evenement.dateFin | date('d-m-Y H:i:s') }}.</figcaption>
+                          </figure>
+                        <div class="card-body d-flex flex-column  justify-content-center align-items-center p-2">
+                            <h5 class="card-title h-auto">{{ evenement.nom }}</h5>    
+                            <p class="card-text d-inline-block flex-grow-1">{{ evenement.description }}</p> 
+                            <div class="container d-flex justify-content-evenly align-items-center ">
+                                <a href="{{ path('app_showEvent', { 'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-info">Lire la suite</a>                                
+                                {% if app.user %}
+                                    {% if isUserRegistered(app.user, evenement) %}
+                                        <a href="{{ path('app_evenement_unregister', {'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-danger">Se désinscrire</a>
+                                    {% else %}
+                                        <a href="{{ path('app_evenement_register', {'evenementId': evenement.id, 'routeName': routeName}) }}" class="btn btn-success">S'inscrire</a>
+                                    {% endif %} 
+                                {% else %}
+                                        <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+                                {% endif %}                            
+                            </div>
                         </div>
                     </div>            
                 </div>
-                {% endfor %}             
-            </div>
+            {% endfor %}    
+        {% endif %}
+        </div>
         </div>
     {% endif %}
 {% endblock %}

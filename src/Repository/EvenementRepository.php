@@ -21,6 +21,16 @@ class EvenementRepository extends ServiceEntityRepository
         parent::__construct($registry, Evenement::class);
     }
 
+    public function findEventsInDateRange($date_debut, $date_fin)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.date_debut >= :date_debut')
+            ->andWhere('e.date_fin <= :date_fin')
+            ->setParameter('date_debut', $date_debut)
+            ->setParameter('date_fin', $date_fin)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Evenement[] Returns an array of Evenement objects
 //     */
