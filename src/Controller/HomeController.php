@@ -27,7 +27,7 @@ class HomeController extends AbstractController
         $this->evenementController = $evenementController;
     }
 
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(EvenementRepository $evenementRepository, Request $request, EntityManagerInterface $manager): Response
     {
 

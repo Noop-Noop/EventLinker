@@ -4,6 +4,10 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+
 app_register_event:
     path: '/event/register/{evenementId}'
     controller: 'App\Controller\EvenementController::register'
