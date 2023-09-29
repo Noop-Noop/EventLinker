@@ -28,7 +28,7 @@ Création d'une fonction Twig personnalisée appelée isUserRegistered() pour v�
     ```bash
     composer install
 
-4. Créez la base de données et chargez les fixtures (assurez-vous que la configuration de la base de données est correcte dans .env ou .env.local) :
+4. Créez la base de données et chargez les fixtures (assurez-vous que la configuration de la base de données est correcte dans .env ou .env.local.php en mode production) :
 
     ```bash
     php bin/console doctrine:database:create
