@@ -24,15 +24,21 @@ class AppFixture extends Fixture
 
 
         $user = $this->userRepository->findOneBy(['id' => 1]);
-
+        $currentDate = new \DateTime(); 
 
 
         for ($i = 0; $i < 10; $i++) { // Créez 10 utilisateurs et 1 événements créés par chacun de ces utilisateurs
+
+            $dateDebut = $faker->dateTimeBetween($currentDate, '+360 days'); // generer des évènemenents dans le futur uniquement
+            $limiteSuperieure = clone $dateDebut;
+            $limiteSuperieure->modify('+14 days');
+            $dateFin = $faker->dateTimeBetween($dateDebut, $limiteSuperieure);     // et avec une date de fin plus tard que le debut
+
             $event = new Evenement();
-            $event->setNom($faker->sentence($nbWords = 6, $variableNbWords = true));
+            $event->setNom($faker->sentence('nbWords = 6', 'variableNbWords = true'));
             $event->setDescription($faker->paragraph());
-            $event->setDateDebut($faker->dateTimeThisMonth());
-            $event->setDateFin($faker->dateTimeThisMonth());
+            $event->setDateDebut($dateDebut);
+            $event->setDateFin($dateFin);
             $user = new User();
             $user->setUsername($faker->userName());
             $user->setEmail($faker->email());

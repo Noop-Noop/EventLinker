@@ -14,6 +14,8 @@ use App\Repository\InscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Controller\EvenementController;
 use App\Form\DateFilterType;
+use DateTime;
+use Doctrine\ORM\Mapping\OrderBy;
 
 class HomeController extends AbstractController
 {
@@ -28,6 +30,15 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(EvenementRepository $evenementRepository, Request $request, EntityManagerInterface $manager): Response
     {
+
+        $today = new DateTime();
+
+        $upcomingEvents = $evenementRepository->createQueryBuilder('e')
+            ->where('e.date_debut >= :today')
+            ->setParameter('today', $today)
+            ->OrderBy('e.date_debut', 'ASC')
+            ->getQuery()->getResult();
+            
         $dateFilterForm = $this->createForm(DateFilterType::class);
         $dateFilterForm-> handleRequest($request);
 
@@ -49,7 +60,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'filteredEvents' => $filteredEvents,
             'dateFilterForm' => $dateFilterForm->createView(),
-            'evenements' => $evenementRepository->findBy([], ['date_debut' => 'ASC']),
+            'evenements' => $upcomingEvents // $evenementRepository->findBy([], ['date_debut' => 'ASC']),
         ]);
     }
 
